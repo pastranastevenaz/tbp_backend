@@ -7,6 +7,7 @@ from twilio.rest import Client
 account_sid='AC2827b6e38732f90a376e2c53f846fcdb'
 auth_token='5c8b10c2431f61a7389b92ee70dfd26a'
 DEFUALT_SMS="You've just recieved an exception request"
+DEFUALT_RESPONSE='Exception sent'
 
 def sendmail(sender, manager, agent, start_time, end_time, description="LEFT EMPTY", recipient = 'pastrana.steven.az@gmail.com', when = datetime.now()):
     yag = yagmail.SMTP('exceptionapplication', '!Qaz#Edc')
@@ -20,7 +21,10 @@ def sendmail(sender, manager, agent, start_time, end_time, description="LEFT EMP
     description = '<p><b>Description: </b>{}</p>'.format(description)
     email_footer = '<br><p>=====================================</p></br><p>This email was automagically created and sent to {} using python 3, yag, and some coding judo.'.format(recipient)
     contents = [title, time_sent, manager, agent, start_time, end_time, description, email_footer]
-    yag.send('pastrana.steven.az@gmail.com', 'Exception Submission Part 2', contents)
+    # Send the email to the manager | Change the email in the functiion to the variable recipient
+    yag.send('pastrana.steven.az@gmail.com', 'Exception Submission', contents)
+    # Send the confirmation email
+    yag.send(sender, 'Exception Confirmation', 'Your exception was successfuly submited.')
 
 def sendtext(text_message):
     client = Client(account_sid, auth_token)
@@ -30,6 +34,7 @@ def sendtext(text_message):
         body=text_message
     )
     print(message.sid)
+
 
 def main():
     # Using Argparse to test dynamic content
@@ -45,6 +50,6 @@ def main():
 
     sendmail(args.sender, args.manager, args.agent, args.start_time, args.end_time, args.description)
     sendtext(DEFUALT_SMS)
-
-if __name__ == '__main__':
-    main()
+#
+# if __name__ == '__main__':
+#     main()
