@@ -1,12 +1,12 @@
 {
   "dev": {
-    "api_handler_name": "teamsite-chalice-dev",
-    "api_handler_arn": "arn:aws:lambda:us-west-1:790750997775:function:teamsite-chalice-dev",
-    "lambda_functions": {},
-    "backend": "api",
-    "chalice_version": "1.0.0b1",
     "rest_api_id": "9374efz9mk",
+    "backend": "api",
     "api_gateway_stage": "dev",
-    "region": "us-west-1"
+    "api_handler_arn": "arn:aws:lambda:us-west-1:790750997775:function:teamsite-chalice-dev",
+    "region": "us-west-1",
+    "chalice_version": "1.0.0b2",
+    "api_handler_name": "teamsite-chalice-dev",
+    "lambda_functions": {}
   }
 }

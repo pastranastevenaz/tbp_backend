@@ -1,0 +1,14 @@
+{
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Resource": "arn:aws:logs:*:*:*",
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ]
+    }
+  ],
+  "Version": "2012-10-17"
+}
