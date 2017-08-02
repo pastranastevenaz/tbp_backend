@@ -1,6 +1,15 @@
 from chalice import Chalice
 from datetime import datetime
 import smtplib
+from chalice import CORSConfig
+
+cors_config = CORSConfig(
+    allow_origin='https://foo.example.com',
+    allow_headers=['X-Special-Header'],
+    max_age=600,
+    expose_headers=['X-Special-Header'],
+    allow_credentials=True
+)
 
 # APP_EMAIL = 'exceptionapplication@gmail.com'
 # DEFUALT_RESPONSE='Exception sent'
@@ -11,6 +20,11 @@ app = Chalice(app_name='teamsite-chalice')
 @app.route('/')
 def index():
     return {'hello': 'world'}
+
+@app.route('/test/{form}', methods=['POST'], cors=cors_config)
+def test(form):
+    return {'name: ':form.name}
+
 
 @app.route('/sendex', methods=['POST'])
 def sendexception(agent='Bob', supervisor="Tyler"):
@@ -46,9 +60,11 @@ def sendexception(agent='Bob', supervisor="Tyler"):
         server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
         server.ehlo()
         server.login(gmail_user, gmail_password)
-        server.sendmail(sent_from, to, message)
+        # UNcoment this to send the mail
+        # server.sendmail(sent_from, to, message)
         server.close()
-        return {'success': 'Yay!!'}
+        # return {'success': 'Yay!!'}
+        return{'agent': agent}
     except:
         return {'error': 'happened'}
 
@@ -77,19 +93,19 @@ def sendexception(agent='Bob', supervisor="Tyler"):
 #
 # Here are a few more examples:
 #
-# @app.route('/hello/{name}')
-# def hello_name(name):
-#    # '/hello/james' -> {"hello": "james"}
-#    return {'hello': name}
+@app.route('/hello/{name}', cors=cors_config)
+def hello_name(name):
+   # '/hello/james' -> {"hello": "james"}
+   return {'hello': name}
 #
-# @app.route('/users', methods=['POST'])
-# def create_user():
-#     # This is the JSON body the user sent in their POST request.
-#     user_as_json = app.json_body
-#     # Suppose we had some 'db' object that we used to
-#     # read/write from our database.
-#     # user_id = db.create_user(user_as_json)
-#     return {'user_id': user_id}
+@app.route('/users', methods=['POST'], cors=cors_config)
+def create_user():
+    # This is the JSON body the user sent in their POST request.
+    user_as_json = app.json_body
+    # Suppose we had some 'db' object that we used to
+    # read/write from our database.
+    # user_id = db.create_user(user_as_json)
+    return {'user_id': '2'}
 #
 # See the README documentation for more examples.
 #
